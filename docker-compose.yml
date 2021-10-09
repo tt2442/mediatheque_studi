@@ -1,0 +1,17 @@
+version: '3'
+services:
+  mediatheque_studi:
+    image: cadotinfo/symfony5
+    container_name: mediatheque_studi
+    volumes:
+      - .:/app
+    networks:
+      - web
+    restart: always
+    ports:
+      - 49600:80
+
+
+networks:
+  web:
+    external: true
