@@ -1,3 +1,17 @@
-body {
-    background-color: white;
+.jumbotron {
+    background: url('/assets/images/head.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-top: 1px solid #005D85;
+    border-bottom: 1px solid #005D85;
+}
+
+.bg-fade {
+    background-color: rgba(10%, 10%, 10%, 0.7);
+    padding: 2rem;
+    border-radius: 15px;
+}
+
+.text-header {
+    color: #fff;
 }

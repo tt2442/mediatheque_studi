@@ -16,8 +16,65 @@
     {% endblock %}
   </head>
   <body>
-    {% block body %}
-      test
-    {% endblock %}
+
+    <div class="jumbotron jumbotron-fluid py-5">
+      <div class="container bg-fade my-5">
+        <div class="row">
+          <div class="col-8 text-header">
+            <h1 class="display-3">Médiathèque de La Chapelle-Curreaux</h1>
+            <p class="lead">Tous les articles de la médiathèque en un seul endroit.</p>
+            <hr class="my-2">
+            <p>Inspiré du click and collect. Voici notre site d'emprunts en ligne.
+              <br>
+              Recherchez un livre, reservez-le puis collectez-le à la médiathèque dans les 3 jours qui suivent.
+            </p>
+            <p class="lead">
+              <a class="btn btn-primary btn-lg" href="Jumbo action link" role="button">Voir les livres</a>
+            </p>
+          </div>
+          <div class="col-4">
+            <div class="card my-2">
+              <div class="card-header">
+                <h3 class="card-title">Rechercher un livre</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group col-12">
+                  <label for="titre" class="my-1">Titre</label>
+                  <input type="text" class="form-control" name="titre" id="titre" aria-describedby="helpId" placeholder="Titre du livre">
+                </div>
+                <div class="form-group col-12">
+                  <label for="type" class="my-1">Type</label>
+                  <select class="form-control" name="type" id="type">
+                    <option selected="selected" disabled="disabled" value="">Choisir un type ...</option>
+                    <option value="Romans">Romans</option>
+                    <option value="Bandes dessinées">Bandes dessinées</option>
+                    <option value="Albums pour enfants">Albums pour enfants</option>
+                    <option value="Documentaires">Documentaires</option>
+                    <option value="">Tous les types</option>
+                  </select>
+                </div>
+                <div class="form-group col-12">
+                  <label for="cat" class="my-1">Categorie</label>
+                  <select class="form-control" name="cat" id="cat">
+                    <option selected="selected" disabled="disabled" value="">Choisir une categorie ...</option>
+                    <option value="Horreur">Horreur</option>
+                    <option value="Enfant">Pour les enfants</option>
+                    <option value="">Toutes les categories</option>
+                  </select>
+                </div>
+                <div class="col-12 mt-3 text-center">
+                  <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      {% block body %}
+        test
+      {% endblock %}
+    </div>
   </body>
 </html>

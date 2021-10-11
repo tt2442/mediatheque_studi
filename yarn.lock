@@ -1829,6 +1829,7 @@ __metadata:
   dependencies:
     "@popperjs/core": ^2.10.2
     "@symfony/webpack-encore": ^1.6.1
+    boostrap: ^2.0.0
     bootstrap: ^5.1.2
     file-loader: ^6.0.0
     jquery: ^3.6.0
@@ -2052,6 +2053,13 @@ __metadata:
   version: 1.0.0
   resolution: "boolbase@npm:1.0.0"
   checksum: 3e25c80ef626c3a3487c73dbfc70ac322ec830666c9ad915d11b701142fab25ec1e63eff2c450c74347acfd2de854ccde865cd79ef4db1683f7c7b046ea43bb0
+  languageName: node
+  linkType: hard
+
+"boostrap@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "boostrap@npm:2.0.0"
+  checksum: 6bc9cdaffe7d8612fa8bdc5e167fffa91d45dbee5fb5ff2d93f71cfa7bd5eb01f8594bb1b9e3831f43d65f0e520a026ac07094bc06d36babaefb97dfa5b55259
   languageName: node
   linkType: hard
 
