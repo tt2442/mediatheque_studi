@@ -1,22 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-  <div>
-    <h1>Hello</h1>
-    This friendly message is coming from:
-    <ul>
-      <li>Your controller at
-        <code>
-          <a href="{{ '/app/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a>
-        </code>
-      </li>
-      <li>Your template at
-        <code>
-          <a href="{{ '/app/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a>
-        </code>
-      </li>
-    </ul>
+  <div class="row mb-3">
+    <div class="col-12 mt-4 text-center">
+      <h2>Les livres de la médiathèque</h2>
+    </div>
+    <div class="col-12">
+      <div class="row justify-content-around">
+        {% for livre in livres %}
+          <div class="col-lg-3 col-6 mb-3">
+
+            <div class="card  h-100">
+              <div class="card-header">
+                <h4 class="card-title">{{livre.Titre|u.truncate(25, '...')}}</h4>
+              </div>
+              <img class="card-img-top" src="holder.js/100x180/" alt="">
+              <div class="card-body">
+                <small>Un livre de
+                  {{livre.Auteur|u.truncate(25, '...')}}</small>
+                <p class="card-text">{{livre.Description|u.truncate(50, '...')}}</p>
+                {# {% if livre.Genres | length %}
+                  <h5>Genre</h5>
+                  <p class="card-text">
+                    {{livre.Genres|join(', ', ' et ')}}
+                  </p>
+                {% endif %}
+                {% if livre.Genres %}
+                  <h5>Type</h5>
+                  <p class="card-text">
+                    {{livre.Type}}
+                  </p>
+                {% endif %} #}
+              </div>
+              <div class="card-footer">
+                <small>Paru le
+                  {{livre.Date|date('d/m/Y')}}</small>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+    </div>
   </div>
 {% endblock %}

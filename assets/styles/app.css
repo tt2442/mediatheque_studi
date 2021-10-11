@@ -12,6 +12,17 @@
     border-radius: 15px;
 }
 
+.bg-lighten {
+    background-color: rgba(90%, 90%, 90%, 0.7);
+    padding-left: .5rem;
+    border-radius: 5px;
+    color: black;
+}
+
 .text-header {
     color: #fff;
+}
+
+.h-100 {
+    height: 100%;
 }

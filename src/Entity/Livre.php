@@ -66,6 +66,7 @@ class Livre
 
     public function __construct()
     {
+        $this->Disponible = true;
         $this->Genres = new ArrayCollection();
         $this->emprunts = new ArrayCollection();
     }
