@@ -6,8 +6,12 @@ use App\Entity\Genre;
 use App\Entity\Livre;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class LivreType extends AbstractType
 {
@@ -16,10 +20,27 @@ class LivreType extends AbstractType
         $builder
             ->add('Titre')
             ->add('Description')
-            ->add('Img')
+            ->add('Img', FileType::class, [
+                'label' => "Image de couverture",
+                'mapped' => false,
+                'required' => true,
+                'label_attr' => ['class' => 'form_label'],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1M',
+                    ])
+                ],
+            ])
             ->add('Auteur')
-            ->add('Date')
-            ->add('Type')
+            ->add('Date', DateType::class, ['label' => "Date de parution",  'widget' => 'single_text'])
+            ->add('Type', ChoiceType::class, [
+                'choices' => [
+                    'Romans' => 'Romans',
+                    'Bandes dessinées' => 'Bandes dessinées',
+                    'Albums pour enfants' => 'Albums pour enfants',
+                    'Documentaires' => 'Documentaires'
+                ]
+            ])
             ->add('Genres', EntityType::class, [
                 // looks for choices from this entity
                 'class' => Genre::class,

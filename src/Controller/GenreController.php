@@ -49,16 +49,6 @@ class GenreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="genre_show", methods={"GET"})
-     */
-    public function show(Genre $genre): Response
-    {
-        return $this->render('genre/show.html.twig', [
-            'genre' => $genre,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="genre_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Genre $genre): Response
@@ -83,7 +73,7 @@ class GenreController extends AbstractController
      */
     public function delete(Request $request, Genre $genre): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$genre->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $genre->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($genre);
             $entityManager->flush();

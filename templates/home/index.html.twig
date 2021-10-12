@@ -12,11 +12,15 @@
         {% for livre in livres %}
           <div class="col-lg-3 col-6 mb-3">
 
-            <div class="card  h-100">
+            <div class="card  border-0 h-100">
               <div class="card-header">
                 <h4 class="card-title">{{livre.Titre|u.truncate(25, '...')}}</h4>
               </div>
-              {# <img class="card-img-top" src="holder.js/100x180/" alt=""> #}
+              {% if livre.Img %}
+                {% set link = asset('build/img_livre/' ~ livre.Img) %}
+                <img class="card-img-top img-fluid" src="{{ link}}" alt="">
+              {% endif %}
+
               <div class="card-body">
                 <small>Un livre de
                   {{livre.Auteur|u.truncate(25, '...')}}</small>
@@ -27,7 +31,7 @@
                     {{livre.Genres|join(', ', ' et ')}}
                   </p>
                 {% endif %}
-                {% if livre.Genres %}
+                {% if livre.Type %}
                   <h5>Type</h5>
                   <p class="card-text">
                     {{livre.Type}}

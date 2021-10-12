@@ -75,8 +75,9 @@
                   <label for="cat" class="my-1">Categorie</label>
                   <select class="form-control" name="cat" id="cat">
                     <option selected="selected" disabled="disabled" value="">Choisir une categorie ...</option>
-                    <option value="Horreur">Horreur</option>
-                    <option value="Enfant">Pour les enfants</option>
+                    {% for genre in genres %}
+                      <option value="{{genre}}">{{genre}}</option>
+                    {% endfor %}
                     <option value="">Toutes les categories</option>
                   </select>
                 </div>
