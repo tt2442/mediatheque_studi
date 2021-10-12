@@ -3,8 +3,10 @@
 {% block title %}Listes des utilisateurs{% endblock %}
 
 {% block body %}
-  <h1>Listes des utilisateurs</h1>
-
+  <div class="text-center">
+    <h1>Listes des utilisateurs</h1>
+    <a href="{{ path('user_new') }}" class="btn btn-primary">Créer un nouvel utilisateur</a>
+  </div>
   <table class="table">
     <thead>
       <tr>
@@ -34,5 +36,4 @@
     </tbody>
   </table>
 
-  <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}

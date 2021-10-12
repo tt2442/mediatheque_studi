@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class LivreType extends AbstractType
 {
@@ -19,7 +20,7 @@ class LivreType extends AbstractType
     {
         $builder
             ->add('Titre')
-            ->add('Description')
+            ->add('Description', TextareaType::class)
             ->add('Img', FileType::class, [
                 'label' => "Image de couverture",
                 'mapped' => false,
@@ -32,7 +33,7 @@ class LivreType extends AbstractType
                 ],
             ])
             ->add('Auteur')
-            ->add('Date', DateType::class, ['label' => "Date de parution",  'widget' => 'single_text'])
+            ->add('Date')
             ->add('Type', ChoiceType::class, [
                 'choices' => [
                     'Romans' => 'Romans',

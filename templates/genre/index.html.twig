@@ -3,7 +3,10 @@
 {% block title %}Listes des genres{% endblock %}
 
 {% block body %}
-  <h1>Listes des genres</h1>
+  <div class="text-center">
+    <h1>Listes des genres</h1>
+    <a href="{{ path('genre_new') }}" class="btn btn-primary">Ajouter un genre</a>
+  </div>
 
   <table class="table">
     <thead>
@@ -28,5 +31,4 @@
     </tbody>
   </table>
 
-  <a href="{{ path('genre_new') }}">Create new</a>
 {% endblock %}

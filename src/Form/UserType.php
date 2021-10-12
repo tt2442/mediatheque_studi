@@ -6,9 +6,11 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class UserType extends AbstractType
 {
@@ -28,8 +30,8 @@ class UserType extends AbstractType
                 ],
             ])
             ->add('password', PasswordType::class, ['label' => 'Mot de passe'])
-            ->add('Datebirth')
-            ->add('Adresse');
+            ->add('Datebirth', DateType::class, ['label' => "Date de naissance",  'widget' => 'single_text'])
+            ->add('Adresse', TextareaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
