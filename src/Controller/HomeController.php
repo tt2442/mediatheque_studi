@@ -21,10 +21,10 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/membre", name="membre")
+     * @Route("/employe", name="employe")
      */
-    public function membre(): Response
+    public function employe(): Response
     {
-        return $this->render('home/membre.html.twig', []);
+        return $this->render('home/employe.html.twig', []);
     }
 }

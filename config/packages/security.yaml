@@ -5,7 +5,7 @@ security:
   role_hierarchy:
     ROLE_Inscrit: ROLE_Inscrit
     ROLE_Employe: ROLE_Employe
-    ROLE_Administrateur: ROLE_Administrateur
+    ROLE_Administrateur: ROLE_Administrateur ROLE_Employe ROLE_Inscrit
   # https://symfony.com/doc/current/security.html#c-hashing-passwords
   password_hashers:
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'

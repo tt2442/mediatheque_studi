@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_membre.html.twig' %}
 
 {% block title %}Accueil{% endblock %}
 
@@ -16,7 +16,7 @@
               <div class="card-header">
                 <h4 class="card-title">{{livre.Titre|u.truncate(25, '...')}}</h4>
               </div>
-              <img class="card-img-top" src="holder.js/100x180/" alt="">
+              {# <img class="card-img-top" src="holder.js/100x180/" alt=""> #}
               <div class="card-body">
                 <small>Un livre de
                   {{livre.Auteur|u.truncate(25, '...')}}</small>

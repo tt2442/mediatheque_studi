@@ -26,3 +26,24 @@
 .h-100 {
     height: 100%;
 }
+
+footer {
+    max-height: 6em;
+    display: block;
+    margin-top: auto;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+}
+
+footer {
+    background: #212529;
+    color: whitesmoke;
+}

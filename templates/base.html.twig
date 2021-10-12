@@ -1,76 +1,26 @@
 {% extends 'base_base.html.twig' %}
-{% block title %}Accueil{% endblock %}
+{% block title %}Espace employés{% endblock %}
 {% block header %}
-
-  <div class="jumbotron jumbotron-fluid py-5">
-    <div class="container bg-fade my-5">
-      <div class="row justify-content-around">
-        <div class="col-12 col-lg-8 text-header">
-          <h1 class="display-3">Médiathèque de La Chapelle-Curreaux</h1>
-          <p class="lead">Tous les articles de la médiathèque en un seul endroit.</p>
-          <hr class="my-2">
-          <p>Inspiré du click and collect. Voici notre site d'emprunts en ligne.
-            <br>
-            Recherchez un livre, reservez-le puis collectez-le à la médiathèque dans les 3 jours qui suivent.
-          </p>
-          <nav class="navbar navbar-expand-md navbar-light text-light bg-light bg-lighten">
-            <a class="navbar-brand" href="{{ url('home') }}">Accueil</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">S'inscrire</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link {% if pathurl matches '{^/login}' %}active{% endif %}" href="{{ url('app_login') }}">Se connecter</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div>
-        <div class="col-8 col-lg-4">
-          <div class="card my-2">
-            {% if pathurl matches '{^/login}' %}
-              {% block loginForm %}{% endblock %}
-            {% else %}
-              <div class="card-header">
-                <h3 class="card-title">Rechercher un livre</h3>
-              </div>
-              <div class="card-body">
-                <div class="form-group col-12">
-                  <label for="titre" class="my-1">Titre</label>
-                  <input type="text" class="form-control" name="titre" id="titre" aria-describedby="helpId" placeholder="Titre du livre">
-                </div>
-                <div class="form-group col-12">
-                  <label for="type" class="my-1">Type</label>
-                  <select class="form-control" name="type" id="type">
-                    <option selected="selected" disabled="disabled" value="">Choisir un type ...</option>
-                    <option value="Romans">Romans</option>
-                    <option value="Bandes dessinées">Bandes dessinées</option>
-                    <option value="Albums pour enfants">Albums pour enfants</option>
-                    <option value="Documentaires">Documentaires</option>
-                    <option value="">Tous les types</option>
-                  </select>
-                </div>
-                <div class="form-group col-12">
-                  <label for="cat" class="my-1">Categorie</label>
-                  <select class="form-control" name="cat" id="cat">
-                    <option selected="selected" disabled="disabled" value="">Choisir une categorie ...</option>
-                    <option value="Horreur">Horreur</option>
-                    <option value="Enfant">Pour les enfants</option>
-                    <option value="">Toutes les categories</option>
-                  </select>
-                </div>
-                <div class="col-12 mt-3 text-center">
-                  <button type="submit" class="btn btn-primary">Rechercher</button>
-                </div>
-              </div>
-            {% endif %}
-          </div>
-        </div>
-      </div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <a class="navbar-brand" href="{{ url('home') }}">Accueil du site</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link {% if pathurl matches '{^/employe}' %}active{% endif %}" href="{{ url('employe') }}">Espace employés</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if pathurl matches '{^/user}' %}active{% endif %}" href="{{ url('user_index') }}">Utilisateurs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if pathurl matches '{^/livre}' %}active{% endif %}" href="{{ url('livre_index') }}">Livres</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if pathurl matches '{^/genre}' %}active{% endif %}" href="{{ url('genre_index')}}">Genres</a>
+        </li>
+      </ul>
     </div>
-  </div>
+  </nav>
 {% endblock %}

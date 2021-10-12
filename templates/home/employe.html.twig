@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Employés{% endblock %}
+
+{% block body %}
+  <div class="row justify-content-around text-center">
+    <div class="col-12">
+      <h1>Espace Employés</h1>
+      <p>Dans cet espace vous pouvez</p>
+    </div>
+    <div class="col-12">
+      <div class="row">
+        <div class="col">
+          <a href="{{ url('user_index') }}" class="btn btn-primary">Validé les inscriptions des utilisateurs</a>
+        </div>
+        <div class="col">
+          <a href="{{ url('livre_index') }}" class="btn btn-primary">Voir, ajouter, modifier et supprimer des livres</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
