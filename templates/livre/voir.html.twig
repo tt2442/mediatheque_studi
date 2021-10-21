@@ -6,16 +6,20 @@
 {% block search %}{% endblock %}
 
 {% block body %}
-  <h1>Détails du livre</h1>
+  <h1 class="text-center">Détails du livre</h1>
 
   <div class="row">
     <div class="col-12">
-      <h4 class="card-title">{{livre.Titre}}</h4>
+      <h4 class="card-title text-center">{{livre.Titre}}</h4>
     </div>
     {% if livre.Img %}
       {% set link = asset('build/img_livre/' ~ livre.Img) %}
     <div class="col-6">
       <img class="img-fluid" src="{{ link}}" alt="">
+      </div>
+       {% else %}
+    <div class="col-6">
+                <img class="card-img-top img-fluid" src="https://fakeimg.pl/250x100/" alt="">
       </div>
     {% endif %}
 
@@ -38,16 +42,20 @@
         </p>
       {% endif %}
     </div>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      
       {% if livre.disponible == false %}
         <p class="text-danger">Le livre est emprunté</p>
       {% elseif livre.reserve == true %}
         <p class="text-warning">Le livre est réservé</p>
         {% else %}
-                      <div class="col-7">
+                      <div class="col-12">
                         <a type="button" href="{{path("reserver", {'id': livre.id} ) }}" class="btn btn-primary">Reserver ce livre</a>
                       </div>
+    {% endif %}
       {% endif %}
-
+<div class="col-12 text-center mt-3">
     <a href="{{ path('home') }}" class="btn btn-primary w-auto">Retour</a>
+  </div>
   </div>
 {% endblock %}
