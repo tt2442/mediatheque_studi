@@ -2,15 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ * fields={"email"},
+ * errorPath="email",
+ * message="Il existe déjà un compte avec cet email."
+ *) 
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -61,6 +67,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="User", orphanRemoval=true)
      */
     private $emprunts;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $active;
 
     public function __construct()
     {
@@ -230,6 +241,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $emprunt->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

@@ -30,9 +30,9 @@
                   <li class="nav-item">
                     <a class="nav-link" href="{{ url('employe') }}">Mon espace</a>
                   </li>
-                {% else %}
+                {% elseif not is_granted('IS_AUTHENTICATED_FULLY')  %}
                   <li class="nav-item">
-                    <a class="nav-link" href="#">S'inscrire</a>
+                    <a class="nav-link {% if pathurl matches '{^/signup}' %}active{% endif %}" href="{{ url('signup') }}">S'inscrire</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link {% if pathurl matches '{^/login}' %}active{% endif %}" href="{{ url('app_login') }}">Se connecter</a>
@@ -47,9 +47,9 @@
             </div>
           </nav>
         </div>
-        <div class="col-8 col-lg-4">
+        <div class="col-8 {% if pathurl matches '{^/signup}' %}col-lg-8 {% else %}col-lg-4 {% endif %}">
           <div class="card my-2">
-            {% if pathurl matches '{^/login}' %}
+            {% if pathurl matches '{^/login}' or pathurl matches '{^/signup}' %}
               {% block loginForm %}{% endblock %}
             {% else %}
               <div class="card-header">

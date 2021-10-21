@@ -23,7 +23,7 @@
           <td>{{ user.Nom }}</td>
           <td>{{ user.Prenom }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.roles|join(', ','')|replace({'ROLE_' : ''}) }}</td>
+          <td>{{ user.roles|join(', ',' et ')|replace({'ROLE_' : ''}) }}</td>
           <td>
             <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary">Modifier</a>
           </td>

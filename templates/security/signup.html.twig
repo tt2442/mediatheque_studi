@@ -1,0 +1,15 @@
+{% extends 'base_membre.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+{% block body %}{% endblock %}
+
+{% block loginForm %}
+  <form method="post">
+    <div class="card-header">
+      <h3 class="card-title">S'inscrire</h1>
+    </div>
+    <div class="card-body">
+      {{ include('user/_form.html.twig') }}
+    </div>
+  </form>
+{% endblock %}

@@ -3,6 +3,7 @@ security:
   enable_authenticator_manager: true
 
   role_hierarchy:
+    ROLE_Habitant: ROLE_Habitant
     ROLE_Inscrit: ROLE_Inscrit
     ROLE_Employe: ROLE_Employe
     ROLE_Administrateur: ROLE_Administrateur ROLE_Employe ROLE_Inscrit
@@ -24,6 +25,7 @@ security:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
     main:
+      user_checker: App\Security\UserChecker
       lazy: true
       provider: app_user_provider
       custom_authenticator: App\Security\LoginFormAuthenticator
