@@ -23,8 +23,33 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
+        if (isset($_GET['search'])) {
+            $getSearch = $_GET['search'];
+        } else {
+            $getSearch = '';
+        }
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+        } else {
+            $page = 1;
+        }
+        if (isset($_GET['nbrElementByPage'])) {
+            $nbrElementByPage = $_GET['nbrElementByPage'];
+        } else {
+            $nbrElementByPage = 10;
+        }
+        $result = $userRepository->searchWhere($getSearch, $page, $nbrElementByPage);
+        $nbrPage = intval(ceil(count($result) / $nbrElementByPage));
+        if ($page > $nbrPage && $nbrPage > 0) {
+            $page = $nbrPage;
+            return $this->redirectToRoute('user_index', ['nbrElementByPage' => $nbrElementByPage, 'page' => $page, 'search' => $getSearch]);
+        }
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $result,
+            'search' => $getSearch,
+            'page' => $page,
+            'nbrElementByPage' => $nbrElementByPage,
+            'nbrPage' => $nbrPage
         ]);
     }
 
@@ -33,8 +58,33 @@ class UserController extends AbstractController
      */
     public function inactive(UserRepository $userRepository): Response
     {
+        if (isset($_GET['search'])) {
+            $getSearch = $_GET['search'];
+        } else {
+            $getSearch = '';
+        }
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+        } else {
+            $page = 1;
+        }
+        if (isset($_GET['nbrElementByPage'])) {
+            $nbrElementByPage = $_GET['nbrElementByPage'];
+        } else {
+            $nbrElementByPage = 10;
+        }
+        $result = $userRepository->searchWhereInactive($getSearch, $page, $nbrElementByPage);
+        $nbrPage = intval(ceil(count($result) / $nbrElementByPage));
+        if ($page > $nbrPage && $nbrPage > 0) {
+            $page = $nbrPage;
+            return $this->redirectToRoute('user_index_inactive', ['nbrElementByPage' => $nbrElementByPage, 'page' => $page, 'search' => $getSearch]);
+        }
         return $this->render('user/index_inactive.html.twig', [
-            'users' => $userRepository->findBy(['active' => false]),
+            'users' => $result,
+            'search' => $getSearch,
+            'page' => $page,
+            'nbrElementByPage' => $nbrElementByPage,
+            'nbrPage' => $nbrPage
         ]);
     }
 

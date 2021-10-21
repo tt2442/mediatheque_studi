@@ -3,11 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,6 +36,57 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->persist($user);
         $this->_em->flush();
     }
+
+    public function searchWhere($getSearch = "", $page = 1, $limit = 5)
+    {
+        $entityManager = $this->getEntityManager();
+        $getSearch = strtolower($getSearch);
+
+        $dql = $entityManager->createQuery(
+            "SELECT u
+            FROM App\Entity\User u
+            WHERE LOWER(u.Nom) LIKE :Name 
+                OR LOWER(u.Prenom) LIKE :Name
+                OR LOWER(u.email) LIKE :Name
+            ORDER BY u.Nom ASC
+            "
+        )->setParameter('Name', '%' . $getSearch . '%');
+
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
+    }
+
+    public function searchWhereInactive($getSearch = "", $page = 1, $limit = 5)
+    {
+        $entityManager = $this->getEntityManager();
+        $getSearch = strtolower($getSearch);
+
+        $dql = $entityManager->createQuery(
+            "SELECT u
+            FROM App\Entity\User u
+            WHERE u.active = false
+                AND (LOWER(u.Nom) LIKE :Name 
+                OR LOWER(u.Prenom) LIKE :Name
+                OR LOWER(u.email) LIKE :Name)
+            ORDER BY u.Nom ASC
+            "
+        )->setParameter('Name', '%' . $getSearch . '%');
+
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
+    }
+
+
 
     // /**
     //  * @return User[] Returns an array of User objects
