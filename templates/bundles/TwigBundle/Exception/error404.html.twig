@@ -1,0 +1,20 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Erreur 404
+{% endblock %}
+{% block page_title %}
+  <h1>Page non trouvé</h1>
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+
+        <a href="{{ path('home') }}" class="btn btn-primary-change">Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
