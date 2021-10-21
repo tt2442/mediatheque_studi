@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes des comptes à valider{% endblock %}
+
+{% block body %}
+  <div class="text-center">
+    <h1>Listes des comptes à valider</h1>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Email</th>
+        <th>Adresse</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.Nom }}</td>
+          <td>{{ user.Prenom }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.adresse }}</td>
+          <td>
+            <a href="{{ path('user_active', {'id': user.id}) }}" class="btn btn-primary">Activer le compte</a>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="5">Aucun résultat</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

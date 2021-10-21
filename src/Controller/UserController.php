@@ -27,6 +27,27 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/inactifs", name="user_index_inactive", methods={"GET"})
+     */
+    public function inactive(UserRepository $userRepository): Response
+    {
+        return $this->render('user/index_inactive.html.twig', [
+            'users' => $userRepository->findBy(['active' => false]),
+        ]);
+    }
+
+    /**
+     * @Route("/active/{id}", name="user_active", methods={"GET"})
+     */
+    public function active(User $user): Response
+    {
+        $user->setActive(true);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('user_index_inactive', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response

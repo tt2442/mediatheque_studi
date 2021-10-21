@@ -11,8 +11,13 @@
         <li class="nav-item">
           <a class="nav-link {% if pathurl matches '{^/employe}' %}active{% endif %}" href="{{ url('employe') }}">Espace employés</a>
         </li>
+        {% if is_granted('ROLE_Administrateur') %}
+          <li class="nav-item">
+            <a class="nav-link {% if pathurl matches '{^/user/$}' %}active{% endif %}" href="{{ url('user_index') }}">Utilisateurs</a>
+          </li>
+        {% endif %}
         <li class="nav-item">
-          <a class="nav-link {% if pathurl matches '{^/user}' %}active{% endif %}" href="{{ url('user_index') }}">Utilisateurs</a>
+          <a class="nav-link {% if pathurl matches '{^/user/inactifs}' %}active{% endif %}" href="{{ url('user_index_inactive') }}">Comptes inactifs</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if pathurl matches '{^/livre}' %}active{% endif %}" href="{{ url('livre_index') }}">Livres</a>

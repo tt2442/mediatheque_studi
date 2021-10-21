@@ -33,7 +33,7 @@ class LivreType extends AbstractType
                 ],
             ])
             ->add('Auteur')
-            ->add('Date')
+            ->add('Date', DateType::class, ['label' => "Date de parution",  'widget' => 'single_text'])
             ->add('Type', ChoiceType::class, [
                 'choices' => [
                     'Romans' => 'Romans',
