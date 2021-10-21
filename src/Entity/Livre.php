@@ -64,6 +64,11 @@ class Livre
      */
     private $emprunts;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $reserve;
+
     public function __construct()
     {
         $this->Disponible = true;
@@ -210,6 +215,18 @@ class Livre
                 $emprunt->setLivre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReserve(): ?bool
+    {
+        return $this->reserve;
+    }
+
+    public function setReserve(?bool $reserve): self
+    {
+        $this->reserve = $reserve;
 
         return $this;
     }

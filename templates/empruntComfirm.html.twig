@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Saisir la date de fin de l'emprunt{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-12  text-center">
+      <h1>Saisir la date de fin de l'emprunt</h1>
+    </div>
+    {{ include('emprunt_form.html.twig') }}
+    <div class="text-center mt-2">
+      <a href="{{ path('emprunt_to_valid') }}" class="btn btn-primary">Retour à la liste</a>
+    </div>
+  </div>
+{% endblock %}

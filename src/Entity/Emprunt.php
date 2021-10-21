@@ -28,12 +28,12 @@ class Emprunt
     private $Datestart;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $Dateend;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $Emptrunte;
 
@@ -83,7 +83,7 @@ class Emprunt
         return $this->Dateend;
     }
 
-    public function setDateend(\DateTimeInterface $Dateend): self
+    public function setDateend(?\DateTimeInterface $Dateend): self
     {
         $this->Dateend = $Dateend;
 
@@ -95,7 +95,7 @@ class Emprunt
         return $this->Emptrunte;
     }
 
-    public function setEmptrunte(bool $Emptrunte): self
+    public function setEmptrunte(?bool $Emptrunte): self
     {
         $this->Emptrunte = $Emptrunte;
 

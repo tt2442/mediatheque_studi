@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des emprunts à comfirmer{% endblock %}
+
+{% block body %}
+  <div class="text-center">
+    <h1>Liste des emprunts à comfirmer</h1>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom de l'emprunteur</th>
+        <th>Prenom de l'emprunteur</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emprunt in emprunts %}
+        <tr>
+          <td>{{ emprunt.User.Nom }}</td>
+          <td>{{ emprunt.User.Prenom }}</td>
+          <td><a href="{{ url("comfirm_emprunt", {'id':emprunt.id})}}" class="btn btn-primary">Comfirmer que le livre à été récupéré</a></td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="3">Aucun résultat</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

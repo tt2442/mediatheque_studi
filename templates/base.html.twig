@@ -25,6 +25,9 @@
         <li class="nav-item">
           <a class="nav-link {% if pathurl matches '{^/genre}' %}active{% endif %}" href="{{ url('genre_index')}}">Genres</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link {% if pathurl matches '{^/emprunt}' %}active{% endif %}" href="{{ url('emprunt_to_valid')}}">Emprunts à valider</a>
+        </li>
       </ul>
     </div>
   </nav>

@@ -5,7 +5,119 @@
 {% block body %}
   <div class="row mb-3">
     <div class="col-12 mt-4 text-center">
-      <h2>Les livres de la médiathèque</h2>
+      <h2>
+        {% if titre is defined %}
+          Résultats de la recherche
+        {% else %}
+          Les livres de la médiathèque
+        {% endif %}
+      </h2>
+    </div>
+    <div class="col-12">
+      {% if nbrPage > 1 %}
+        <div class="col-md-8 mb-1">
+
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+
+              {% if page > 1 %}
+
+                <li class="page-item">
+                  <a class="page-link" href="{{ path('home', {'search':search,'type':type,'genre':genre,'page':page - 1,'nbrElementByPage':nbrElementByPage}) }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+              {% endif %}
+
+              {% if page < 4 %}
+                {% set pageStart = 1 %}
+                {% set pageEnd = 7 %}
+              {% elseif (nbrPage - 3) < page %}
+                {% set
+                pageStart=nbrPage - 6 %}
+                {% set pageEnd = nbrPage %}
+              {% else %}
+                {% set pageEnd = page + 3 %}
+                {% set
+                pageStart=page - 3 %}
+              {% endif %}
+              {% if pageEnd > nbrPage %}
+                {% set pageEnd = nbrPage %}
+              {% endif %}
+              {% if pageStart < 1 %}
+                {% set pageStart = 1 %}
+              {% endif %}
+              {% for pageNow in pageStart..pageEnd %}
+                {% if pageNow == page %}
+                  <li class="page-item active">
+                    <a class="page-link" href="{{ path('home', {'search':search,'type':type,'genre':genre,'page':pageNow,'nbrElementByPage':nbrElementByPage}) }}">{{
+                        pageNow }}
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{ path('home', {'search':search,'type':type,'genre':genre,'page':pageNow,'nbrElementByPage':nbrElementByPage}) }}">{{
+                            pageNow }}
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+              {% if page != nbrPage %}
+
+                <li class="page-item">
+                  <a class="page-link" href="{{ path('home', {'search':search,'type':type,'genre':genre,'page':page + 1,'nbrElementByPage':nbrElementByPage}) }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              {% endif %}
+
+            </ul>
+          </nav>
+        </div>
+      {% endif %}
+
+      <div class="col-md-4 mb-1">
+        <form action="{{ path('home') }}" method="GET">
+          <label for="nbr">Nombre de livres par pages</label>
+          <select in="nbr" name='nbrElementByPage' class="btn btn-primary" onchange='this.form.submit();'>
+
+            {% if nbrElementByPage == 10 %}
+              <option selected="selected" value='10'>10</option>
+              <option value='15'>15</option>
+              <option value='30'>30</option>
+              <option value='50'>50</option>
+            {% elseif nbrElementByPage == 15 %}
+              <option value='10'>10</option>
+              <option selected="selected" value='15'>15</option>
+              <option value='30'>30</option>
+              <option value='50'>50</option>
+            {% elseif nbrElementByPage == 30 %}
+              <option value='10'>10</option>
+              <option value='15'>15</option>
+              <option selected="selected" value='30'>30</option>
+              <option value='50'>50</option>
+            {% elseif nbrElementByPage == 50 %}
+              <option value='10'>10</option>
+              <option value='15'>15</option>
+              <option value='30'>30</option>
+              <option selected="selected" value='50'>50</option>
+            {% else %}
+              <option selected="selected" value='10'>10</option>
+              <option value='15'>15</option>
+              <option value='30'>30</option>
+              <option value='50'>50</option>
+            {% endif %}
+
+          </select>
+          <input type="hidden" class="form-control" name="search" value="{{search}}">
+          <input type="hidden" class="form-control" name="type" value="{{type}}">
+          <input type="hidden" class="form-control" name="genre" value="{{genre}}">
+          <input type="hidden" class="form-control" name="page" value="{{page}}">
+        </form>
+      </div>
     </div>
     <div class="col-12">
       <div class="row justify-content-around">
@@ -25,18 +137,23 @@
                 <small>Un livre de
                   {{livre.Auteur|u.truncate(25, '...')}}</small>
                 <p class="card-text">{{livre.Description|u.truncate(50, '...')}}</p>
-                {# {% if livre.Genres | length %}
-                  <h5>Genre</h5>
-                  <p class="card-text">
-                    {{livre.Genres|join(', ', ' et ')}}
-                  </p>
-                {% endif %}
-                {% if livre.Type %}
-                  <h5>Type</h5>
-                  <p class="card-text">
-                    {{livre.Type}}
-                  </p>
-                {% endif %} #}
+                <div class="row">
+                  {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+                    {% if livre.disponible == false %}
+                      <p class="text-danger">Le livre est emprunté</p>
+                    {% elseif livre.reserve == true %}
+                      <p class="text-warning">Le livre est réservé</p>
+                    {% else %}
+                      <div class="col-7">
+                        <a type="button" href="{{path("reserver", {'id': livre.id} ) }}" class="btn btn-primary">Reserver ce livre</a>
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                  <div class="col">
+                    <a type="button" href="{{path("livre_voir", {'id': livre.id} ) }}" class="btn btn-primary">Voir plus</a>
+                  </div>
+                </div>
               </div>
               <div class="card-footer">
                 <small>Paru le

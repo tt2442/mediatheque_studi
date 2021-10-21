@@ -48,45 +48,61 @@
           </nav>
         </div>
         <div class="col-8 {% if pathurl matches '{^/signup}' %}col-lg-8 {% else %}col-lg-4 {% endif %}">
-          <div class="card my-2">
-            {% if pathurl matches '{^/login}' or pathurl matches '{^/signup}' %}
-              {% block loginForm %}{% endblock %}
-            {% else %}
-              <div class="card-header">
-                <h3 class="card-title">Rechercher un livre</h3>
-              </div>
-              <div class="card-body">
-                <div class="form-group col-12">
-                  <label for="titre" class="my-1">Titre</label>
-                  <input type="text" class="form-control" name="titre" id="titre" aria-describedby="helpId" placeholder="Titre du livre">
+          {% if pathurl matches '{^/voir-livre}' %}
+          {% else %}
+            <div class="card my-2">
+              {% if pathurl matches '{^/login}' or pathurl matches '{^/signup}'%}
+                {% block loginForm %}{% endblock %}
+              {% else %}
+                <div class="card-header">
+                  <h3 class="card-title">Rechercher un livre</h3>
                 </div>
-                <div class="form-group col-12">
-                  <label for="type" class="my-1">Type</label>
-                  <select class="form-control" name="type" id="type">
-                    <option selected="selected" disabled="disabled" value="">Choisir un type ...</option>
-                    <option value="Romans">Romans</option>
-                    <option value="Bandes dessinées">Bandes dessinées</option>
-                    <option value="Albums pour enfants">Albums pour enfants</option>
-                    <option value="Documentaires">Documentaires</option>
-                    <option value="">Tous les types</option>
-                  </select>
+                <div class="card-body">
+                  <form action="{{ path('home') }}" method="GET">
+                    <input type="hidden" class="form-control" name="nbrElementByPage" value="{{nbrElementByPage}}">
+                    <input type="hidden" class="form-control" name="page" value="1">
+                    <div class="form-group col-12">
+                      <label for="titre" class="my-1">Titre</label>
+                      <input type="search" name="search" class="form-control rounded" id="titre" placeholder="Titre" aria-label="Search" aria-describedby="search-addon" value="{{ search }}"/>
+                    </div>
+                    <div class="form-group col-12">
+                      <label for="type" class="my-1">Type</label>
+                      <select class="form-control" name="type" id="type">
+                        <option selected="selected" disabled="disabled" value="">Choisir un type ...</option>
+                        {% set types = ['Romans', 'Bandes dessinées', 'Albums pour enfants', 'Documentaires'] %}
+                        {% for typeInAll in types %}
+                          {% if type == typeInAll %}
+                            <option value="{{typeInAll}}" selected="selected">{{typeInAll}}</option>
+                          {% else %}
+                            <option value="{{typeInAll}}">{{typeInAll}}</option>
+                          {% endif %}
+                        {% endfor %}
+                        <option value="" {% if type == '' %} selected="selected" {% endif %}>Tous les types</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-12">
+                      <label for="genre" class="my-1">Categorie</label>
+                      <select class="form-control" name="genre" id="genre">
+                        <option selected="selected" disabled="disabled" value="0">Choisir un genre ...</option>
+                        {% for genreInAll in genres %}
+                          {% if genreInAll.id == genre %}
+                            <option value="{{genreInAll.id}}" selected="selected">{{genreInAll}}</option>
+                          {% else %}
+                            <option value="{{genreInAll.id}}">{{genreInAll}}</option>
+                          {% endif %}
+                        {% endfor %}
+                        <option value="0" {% if genre == 0 %} selected="selected" {% endif %}>Tous les genres</option>
+                      </select>
+                    </div>
+                    <div class="col-12 mt-3 text-center">
+                      <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </div>
+                  </form>
                 </div>
-                <div class="form-group col-12">
-                  <label for="cat" class="my-1">Categorie</label>
-                  <select class="form-control" name="cat" id="cat">
-                    <option selected="selected" disabled="disabled" value="">Choisir une categorie ...</option>
-                    {% for genre in genres %}
-                      <option value="{{genre}}">{{genre}}</option>
-                    {% endfor %}
-                    <option value="">Toutes les categories</option>
-                  </select>
-                </div>
-                <div class="col-12 mt-3 text-center">
-                  <button type="submit" class="btn btn-primary">Rechercher</button>
-                </div>
-              </div>
-            {% endif %}
-          </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
         </div>
       </div>
     </div>

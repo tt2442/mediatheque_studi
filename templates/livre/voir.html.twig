@@ -1,0 +1,49 @@
+{% extends 'base_membre.html.twig' %}
+
+{% block title %}Détails du livre{% endblock %}
+{% block loginForm %}{% endblock %}
+
+{% block body %}
+  <h1>Détails du livre</h1>
+
+  <div class="row">
+    <div class="col-12">
+      <h4 class="card-title">{{livre.Titre}}</h4>
+    </div>
+    {% if livre.Img %}
+      {% set link = asset('build/img_livre/' ~ livre.Img) %}
+      <img class="img-fluid" src="{{ link}}" alt="">
+    {% endif %}
+
+    <div class="col-12">
+      <small>Paru le
+        {{livre.Date|date('d/m/Y')}}</small>
+      <small>Un livre de
+        {{livre.Auteur}}</small>
+      <p class="card-text">{{livre.Description}}</p>
+
+      {% if livre.Genres | length %}
+        <h5>Genre</h5>
+        <p class="card-text">
+          {{livre.Genres|join(', ', ' et ')}}
+        </p>
+      {% endif %}
+      {% if livre.Type %}
+        <p class="card-text">
+          {{livre.Type}}
+        </p>
+      {% endif %}
+    </div>
+      {% if livre.disponible == false %}
+        <p class="text-danger">Le livre est emprunté</p>
+      {% elseif livre.reserve == true %}
+        <p class="text-warning">Le livre est réservé</p>
+        {% else %}
+                      <div class="col-7">
+                        <a type="button" href="{{path("reserver", {'id': livre.id} ) }}" class="btn btn-primary">Reserver ce livre</a>
+                      </div>
+      {% endif %}
+
+    <a href="{{ path('home') }}" class="btn btn-primary w-auto">Retour</a>
+  </div>
+{% endblock %}

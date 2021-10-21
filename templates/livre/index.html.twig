@@ -146,7 +146,18 @@
           </div>
           <div class="col-6">
             <div class="input-group">
-              <input type="search" name="type" class="form-control rounded" placeholder="Type" aria-label="Type" aria-describedby="type-addon" value="{{ type }}"/>
+              <select class="form-control" name="type" id="type">
+                <option selected="selected" disabled="disabled" value="">Choisir un type ...</option>
+                {% set types = ['Romans', 'Bandes dessinées', 'Albums pour enfants', 'Documentaires'] %}
+                {% for typeInAll in types %}
+                  {% if type == typeInAll %}
+                    <option value="{{typeInAll}}" selected="selected">{{typeInAll}}</option>
+                  {% else %}
+                    <option value="{{typeInAll}}">{{typeInAll}}</option>
+                  {% endif %}
+                {% endfor %}
+                <option value="" {% if type == '' %} selected="selected" {% endif %}>Tous les types</option>
+              </select>
               <button type="submit" class="btn btn-primary w-25 btn-search">
                 <i class="m-0 p-0 dripicons ">&#xe041;</i>
               </button>
