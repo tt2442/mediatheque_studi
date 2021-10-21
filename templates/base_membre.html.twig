@@ -13,7 +13,7 @@
             <br>
             Recherchez un livre, reservez-le puis collectez-le à la médiathèque dans les 3 jours qui suivent.
           </p>
-          <nav class="navbar navbar-expand-lg navbar-light text-light bg-light bg-lighten">
+          <nav class="navbar navbar-expand navbar-light text-light bg-light bg-lighten">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -40,6 +40,9 @@
                 {% endif %}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                   <li class="nav-item">
+                    <a class="nav-link {% if pathurl matches '{^/mes-emprunts}' %}active{% endif %}" href="{{ url('mes_emprunts') }}">Mes emprunts en cours</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link {% if pathurl matches '{^/logout}' %}active{% endif %}" href="{{ url('app_logout') }}">Se déconnecter</a>
                   </li>
                 {% endif %}
@@ -47,9 +50,8 @@
             </div>
           </nav>
         </div>
-        <div class="col-8 {% if pathurl matches '{^/signup}' %}col-lg-8 {% else %}col-lg-4 {% endif %}">
-          {% if pathurl matches '{^/voir-livre}' %}
-          {% else %}
+        <div class="col-12 justify-content-center {% if pathurl matches '{^/signup}' %}col-lg-8 {% else %}col-lg-4 {% endif %}">
+          {% block search %}
             <div class="card my-2">
               {% if pathurl matches '{^/login}' or pathurl matches '{^/signup}'%}
                 {% block loginForm %}{% endblock %}
@@ -101,7 +103,7 @@
                 </div>
               {% endif %}
             </div>
-          {% endif %}
+          {% endblock %}
 
         </div>
       </div>

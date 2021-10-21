@@ -162,6 +162,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "presta/sitemap-bundle": {
+        "version": "v3.0.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },

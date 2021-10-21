@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des emprunts en retard
+{% endblock %}
+{% block search %}{% endblock %}
+
+{% block body %}
+  <div class="text-center">
+    <h1>Liste des emprunts en retard</h1>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom du livre</th>
+        <th>Auteur du livre</th>
+        <th>Nom de l'emprunteur</th>
+        <th>Prénom de l'emprunteur</th>
+        <th>Date de retour</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emprunt in emprunts %}
+        <tr>
+          <td>{{ emprunt.Livre.Titre }}</td>
+          <td>{{ emprunt.Livre.Auteur }}</td>
+          <td>{{ emprunt.User.Nom }}</td>
+          <td>{{ emprunt.User.Prenom }}</td>
+          <td>{{ emprunt.Dateend|date('d/m/Y') }}
+          </td>
+          <td>
+            <a href="{{ url("livre_rendre", {'id':emprunt.livre.id,'user':emprunt.User.id})}}" class="btn btn-primary">Valider le retour du livre</a>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="6">Aucun résultat</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

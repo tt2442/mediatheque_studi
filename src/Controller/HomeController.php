@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\User;
 use App\Entity\Livre;
 use App\Form\UserType;
@@ -27,9 +28,9 @@ class HomeController extends AbstractController
 
 
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="home",options={"sitemap" = true})
      */
-    public function index(LivreRepository $livreRepository): Response
+    public function index(LivreRepository $livreRepository, empruntRepository $empruntRepository): Response
     {
         if (isset($_GET['search'])) {
             $titre = $_GET['search'];
@@ -74,6 +75,20 @@ class HomeController extends AbstractController
             $page = $nbrPage;
             return $this->redirectToRoute('livre_index', ['nbrElementByPage' => $nbrElementByPage, 'page' => $page, 'search' => $titre, 'type' => $type, 'genre' => $genre]);
         }
+        foreach ($result as $livre) {
+            $emprunt = $empruntRepository->findBy(['Livre' => $livre->getId()], ['Datestart' => 'DESC']);
+            if (count($emprunt) > 0) {
+                $emprunt = $emprunt[0];
+                $d1 = $emprunt->getDatestart();
+                $d2 = new DateTime(date('Y-m-d'));
+                $interval = $d1->diff($d2);
+                $diff = $interval->format('%d');
+                if ($diff > 3) {
+                    $this->unreserver($livre, $emprunt);
+                }
+            }
+        }
+
         return $this->render('home/index.html.twig', [
             'livres' => $result,
             'genres' => $this->genres,
@@ -97,7 +112,101 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/emprunt", name="emprunt_to_valid")
+     * @Route("/mes-emprunts", name="mes_emprunts",options={"sitemap" = true})
+     */
+    public function mesEmprunts(EmpruntRepository $empruntRepository): Response
+    {
+        $empruntsAll = $empruntRepository->findBy(['User' => $this->getUser(), 'Reserve' => true, 'Emptrunte' => true]);
+        $emprunts = [];
+        foreach ($empruntsAll as $emprunt) {
+            $emprunts[$emprunt->getId()]['emprunt'] = $emprunt;
+            $d1 = $emprunt->getDateend();
+            $d2 = new DateTime(date('Y-m-d'));
+            if ($d1 < $d2) {
+                $emprunts[$emprunt->getId()]['retard'] = true;
+            } else {
+                $emprunts[$emprunt->getId()]['retard'] = false;
+            }
+        }
+
+        return $this->render('home/mesEmprunts.html.twig', [
+            'emprunts' => $emprunts,
+        ]);
+    }
+
+    /**
+     * @Route("/emprunts-user/{id}", name="emprunts_user")
+     */
+    public function empruntsUser(User $user, EmpruntRepository $empruntRepository): Response
+    {
+        $empruntsAll = $empruntRepository->findBy(['User' => $user, 'Reserve' => true, 'Emptrunte' => true]);
+        $emprunts = [];
+        foreach ($empruntsAll as $emprunt) {
+            $emprunts[$emprunt->getId()]['emprunt'] = $emprunt;
+            $d1 = $emprunt->getDateend();
+            $d2 = new DateTime(date('Y-m-d'));
+            if ($d1 < $d2) {
+                $emprunts[$emprunt->getId()]['retard'] = true;
+            } else {
+                $emprunts[$emprunt->getId()]['retard'] = false;
+            }
+        }
+
+        return $this->render('home/empruntsUser.html.twig', [
+            'emprunts' => $emprunts,
+            'user' => $user,
+        ]);
+    }
+    /**
+     * @Route("/emprunts/retard", name="emprunts_retard",options={"sitemap" = true})
+     */
+    public function empruntsEnRetard(EmpruntRepository $empruntRepository): Response
+    {
+        $empruntsAll = $empruntRepository->findBy(['Reserve' => true, 'Emptrunte' => true]);
+        $emprunts = [];
+        foreach ($empruntsAll as $emprunt) {
+            $d1 = $emprunt->getDateend();
+            $d2 = new DateTime(date('Y-m-d'));
+            if ($d1 < $d2) {
+                $emprunts[] = $emprunt;
+            }
+        }
+
+        return $this->render('home/empruntsRetard.html.twig', [
+            'emprunts' => $emprunts,
+        ]);
+    }
+
+
+    /**
+     * @Route("/rendre-livre/{id}/{user}", name="livre_rendre")
+     */
+    public function rendreLivre(Livre $livre, User $user, EmpruntRepository $empruntRepository): Response
+    {
+        if ($this->isGranted('ROLE_Administrateur') || $this->isGranted('ROLE_Employe')) {
+            $emprunts = $empruntRepository->findBy(['Livre' => $livre->getId(), 'User' => $user->getId(), 'Reserve' => true, 'Emptrunte' => true]);
+            foreach ($emprunts as $emprunt) {
+                $this->unreserver($livre, $emprunt);
+            }
+            return $this->redirectToRoute('emprunts_user', ['id' => $user->getId()]);
+        }
+
+        return $this->redirectToRoute('home');
+    }
+
+    public function unreserver(Livre $livre, Emprunt $emprunt): Response
+    {
+        $emprunt->setReserve(false)->setEmptrunte(false);
+        $livre->setReserve(false)->setDisponible(true);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($livre);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/emprunt/comfirm", name="emprunt_to_valid",options={"sitemap" = true})
      */
     public function empruntToValid(EmpruntRepository $empruntRepository): Response
     {
@@ -153,7 +262,7 @@ class HomeController extends AbstractController
 
 
     /**
-     * @Route("/signup", name="signup", methods={"GET","POST"})
+     * @Route("/signup", name="signup", methods={"GET","POST"},options={"sitemap" = true})
      */
     public function signup(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -182,7 +291,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/employe", name="employe")
+     * @Route("/employe", name="employe",options={"sitemap" = true})
      */
     public function employe(): Response
     {

@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class LivreController extends AbstractController
 {
     /**
-     * @Route("/", name="livre_index", methods={"GET"})
+     * @Route("/", name="livre_index", methods={"GET"},options={"sitemap" = true})
      */
     public function index(LivreRepository $livreRepository, GenreRepository $genreRepository): Response
     {
@@ -82,7 +82,7 @@ class LivreController extends AbstractController
 
 
     /**
-     * @Route("/new", name="livre_new", methods={"GET","POST"})
+     * @Route("/new", name="livre_new", methods={"GET","POST"},options={"sitemap" = true})
      */
     public function new(Request $request, SluggerInterface $slugger): Response
     {

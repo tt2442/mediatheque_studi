@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GenreController extends AbstractController
 {
     /**
-     * @Route("/", name="genre_index", methods={"GET"})
+     * @Route("/", name="genre_index", methods={"GET"},options={"sitemap" = true})
      */
     public function index(GenreRepository $genreRepository): Response
     {
@@ -26,7 +26,7 @@ class GenreController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="genre_new", methods={"GET","POST"})
+     * @Route("/new", name="genre_new", methods={"GET","POST"},options={"sitemap" = true})
      */
     public function new(Request $request): Response
     {

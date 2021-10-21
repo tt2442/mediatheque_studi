@@ -3,6 +3,8 @@
 {% block title %}Détails du livre{% endblock %}
 {% block loginForm %}{% endblock %}
 
+{% block search %}{% endblock %}
+
 {% block body %}
   <h1>Détails du livre</h1>
 
@@ -12,10 +14,12 @@
     </div>
     {% if livre.Img %}
       {% set link = asset('build/img_livre/' ~ livre.Img) %}
+    <div class="col-6">
       <img class="img-fluid" src="{{ link}}" alt="">
+      </div>
     {% endif %}
 
-    <div class="col-12">
+    <div class="col-6">
       <small>Paru le
         {{livre.Date|date('d/m/Y')}}</small>
       <small>Un livre de

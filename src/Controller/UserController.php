@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route("/", name="user_index", methods={"GET"},options={"sitemap" = true})
      * @IsGranted("ROLE_Administrateur")
      */
     public function index(UserRepository $userRepository): Response
@@ -29,7 +29,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/inactifs", name="user_index_inactive", methods={"GET"})
+     * @Route("/inactifs", name="user_index_inactive", methods={"GET"},options={"sitemap" = true})
      */
     public function inactive(UserRepository $userRepository): Response
     {
@@ -50,7 +50,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @Route("/new", name="user_new", methods={"GET","POST"},options={"sitemap" = true})
      */
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {

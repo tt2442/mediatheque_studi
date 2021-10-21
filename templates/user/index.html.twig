@@ -26,6 +26,7 @@
           <td>{{ user.roles|join(', ',' et ')|replace({'ROLE_' : ''}) }}</td>
           <td>
             <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary">Modifier</a>
+            <a href="{{ path('emprunts_user', {'id': user.id}) }}" class="btn btn-primary">Voir les emprunts</a>
           </td>
         </tr>
       {% else %}

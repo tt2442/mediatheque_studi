@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des emprunts de {{user}}{% endblock %}
+{% block search %}{% endblock %}
+
+{% block body %}
+  <div class="text-center">
+    <h1>Liste des emprunts de {{user}}</h1>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom du livre</th>
+        <th>Auteur du livre</th>
+        <th>Date de retour</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emprunt in emprunts %}
+        <tr>
+          <td>{{ emprunt.emprunt.Livre.Titre }}</td>
+          <td>{{ emprunt.emprunt.Livre.Auteur }}</td>
+          <td>{{ emprunt.emprunt.Dateend|date('d/m/Y') }}
+            {% if emprunt.retard == true %}
+              <p class="text-danger">En retard</p>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ url("livre_rendre", {'id':emprunt.emprunt.livre.id,'user':user.id})}}" class="btn btn-primary">Valider le retour du livre</a>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="3">Aucun résultat</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
