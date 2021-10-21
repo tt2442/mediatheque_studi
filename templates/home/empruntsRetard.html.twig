@@ -29,7 +29,7 @@
           <td>{{ emprunt.Dateend|date('d/m/Y') }}
           </td>
           <td>
-            <a href="{{ url("livre_rendre", {'id':emprunt.livre.id,'user':emprunt.User.id})}}" class="btn btn-primary">Valider le retour du livre</a>
+            <a href="{{ url("livres_rendre", {'id':emprunt.livre.id,'user':emprunt.User.id})}}" class="btn btn-primary">Valider le retour du livre</a>
           </td>
         </tr>
       {% else %}

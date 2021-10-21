@@ -194,6 +194,22 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
+    /**
+     * @Route("/rendre-livres/{id}/{user}", name="livres_rendre")
+     */
+    public function rendresLivre(Livre $livre, User $user, EmpruntRepository $empruntRepository): Response
+    {
+        if ($this->isGranted('ROLE_Administrateur') || $this->isGranted('ROLE_Employe')) {
+            $emprunts = $empruntRepository->findBy(['Livre' => $livre->getId(), 'User' => $user->getId(), 'Reserve' => true, 'Emptrunte' => true]);
+            foreach ($emprunts as $emprunt) {
+                $this->unreserver($livre, $emprunt);
+            }
+            return $this->redirectToRoute('emprunts_retard');
+        }
+
+        return $this->redirectToRoute('home');
+    }
+
     public function unreserver(Livre $livre, Emprunt $emprunt): Response
     {
         $emprunt->setReserve(false)->setEmptrunte(false);
