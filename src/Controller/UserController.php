@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -18,6 +19,7 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/", name="user_index", methods={"GET"})
+     * @IsGranted("ROLE_Administrateur")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -41,7 +43,7 @@ class UserController extends AbstractController
      */
     public function active(User $user): Response
     {
-        $user->setActive(true);
+        $user->setActive(true)->setRoles(['ROLE_Inscrit']);
         $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('user_index_inactive', [], Response::HTTP_SEE_OTHER);

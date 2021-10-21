@@ -8,6 +8,155 @@
     <a href="{{ path('livre_new') }}" class="btn btn-primary">Ajouter un livre</a>
   </div>
 
+  <div class="row justify-content-around mt-3">
+    {% if nbrPage > 1 %}
+      <div class="col-md-3 mb-1">
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-start">
+
+            {% if page > 1 %}
+
+              <li class="page-item">
+                <a class="page-link" href="{{ path('livre_index', {'search':search,'type':type,'genre':genre,'page':page - 1,'nbrElementByPage':nbrElementByPage}) }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+            {% endif %}
+
+            {% if page < 4 %}
+              {% set pageStart = 1 %}
+              {% set pageEnd = 7 %}
+            {% elseif (nbrPage - 3) < page %}
+              {% set
+                    pageStart=nbrPage - 6 %}
+              {% set pageEnd = nbrPage %}
+            {% else %}
+              {% set pageEnd = page + 3 %}
+              {% set
+                    pageStart=page - 3 %}
+            {% endif %}
+            {% if pageEnd > nbrPage %}
+              {% set pageEnd = nbrPage %}
+            {% endif %}
+            {% if pageStart < 1 %}
+              {% set pageStart = 1 %}
+            {% endif %}
+            {% for pageNow in pageStart..pageEnd %}
+              {% if pageNow == page %}
+                <li class="page-item active">
+                  <a class="page-link" href="{{ path('livre_index', {'search':search,'type':type,'genre':genre,'page':pageNow,'nbrElementByPage':nbrElementByPage}) }}">{{
+                            pageNow }}
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="{{ path('livre_index', {'search':search,'type':type,'genre':genre,'page':pageNow,'nbrElementByPage':nbrElementByPage}) }}">{{
+                                pageNow }}
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+
+            {% if page != nbrPage %}
+
+              <li class="page-item">
+                <a class="page-link" href="{{ path('livre_index', {'search':search,'type':type,'genre':genre,'page':page + 1,'nbrElementByPage':nbrElementByPage}) }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            {% endif %}
+
+          </ul>
+        </nav>
+      </div>
+    {% endif %}
+
+    <div class="col-md-1 mb-1">
+      <form action="{{ path('livre_index') }}" method="GET">
+        <select name='nbrElementByPage' class="btn btn-primary" onchange='this.form.submit();'>
+
+          {% if nbrElementByPage == 10 %}
+            <option selected="selected" value='10'>10</option>
+            <option value='15'>15</option>
+            <option value='30'>30</option>
+            <option value='50'>50</option>
+          {% elseif nbrElementByPage == 15 %}
+            <option value='10'>10</option>
+            <option selected="selected" value='15'>15</option>
+            <option value='30'>30</option>
+            <option value='50'>50</option>
+          {% elseif nbrElementByPage == 30 %}
+            <option value='10'>10</option>
+            <option value='15'>15</option>
+            <option selected="selected" value='30'>30</option>
+            <option value='50'>50</option>
+          {% elseif nbrElementByPage == 50 %}
+            <option value='10'>10</option>
+            <option value='15'>15</option>
+            <option value='30'>30</option>
+            <option selected="selected" value='50'>50</option>
+          {% else %}
+            <option selected="selected" value='10'>10</option>
+            <option value='15'>15</option>
+            <option value='30'>30</option>
+            <option value='50'>50</option>
+          {% endif %}
+
+        </select>
+        <input type="hidden" class="form-control" name="search" value="{{search}}">
+        <input type="hidden" class="form-control" name="type" value="{{type}}">
+        <input type="hidden" class="form-control" name="genre" value="{{genre}}">
+        <input type="hidden" class="form-control" name="page" value="{{page}}">
+      </form>
+    </div>
+    <div class="col-md-2">
+      <form action="{{ path('livre_index') }}" method="GET">
+        <select class="form-control" name="genre" id="genre" onchange='this.form.submit();'>
+          <option selected="selected" disabled="disabled" value="0">Choisir un genre ...</option>
+          {% for genreInAll in genres %}
+            {% if genreInAll.id == genre %}
+              <option value="{{genreInAll.id}}" selected="selected">{{genreInAll}}</option>
+            {% else %}
+              <option value="{{genreInAll.id}}">{{genreInAll}}</option>
+            {% endif %}
+          {% endfor %}
+
+          <option value="0" {% if genre == 0 %} selected="selected" {% endif %}>Tous les genres</option>
+        </select>
+        <input type="hidden" class="form-control" name="search" value="{{search}}">
+        <input type="hidden" class="form-control" name="type" value="{{type}}">
+        <input type="hidden" class="form-control" name="page" value="{{page}}">
+      </form>
+    </div>
+
+    <div class="col-md-6 mb-1">
+      <form action="{{ path('livre_index') }}" method="GET">
+        <div class="row">
+          <div class="col-6">
+            <div class="input-group">
+              <input type="search" name="search" class="form-control rounded" placeholder="Titre" aria-label="Search" aria-describedby="search-addon" value="{{ search }}"/>
+            </div>
+            <input type="hidden" class="form-control" name="nbrElementByPage" value="{{nbrElementByPage}}">
+            <input type="hidden" class="form-control" name="page" value="1">
+            <input type="hidden" class="form-control" name="genre" value="{{genre}}">
+
+          </div>
+          <div class="col-6">
+            <div class="input-group">
+              <input type="search" name="type" class="form-control rounded" placeholder="Type" aria-label="Type" aria-describedby="type-addon" value="{{ type }}"/>
+              <button type="submit" class="btn btn-primary w-25 btn-search">
+                <i class="m-0 p-0 dripicons ">&#xe041;</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <table class="table">
     <thead>
       <tr>

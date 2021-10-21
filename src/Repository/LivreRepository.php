@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Livre;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Livre|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,35 @@ class LivreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Livre::class);
     }
+
+    public function searchWhere($titre = "", $type = "", $page = 1, $limit = 5)
+    {
+        $entityManager = $this->getEntityManager();
+        $titre = strtolower($titre);
+        $type = strtolower($type);
+        // $genre = strtolower($genre);
+
+        $dql = $entityManager->createQuery(
+            "SELECT l
+            FROM App\Entity\Livre l
+            WHERE LOWER(l.Titre) LIKE :titre 
+             AND LOWER(l.Type) LIKE :type
+            ORDER BY l.Titre ASC
+            "
+        )->setParameter('titre', '%' . $titre . '%')
+            ->setParameter('type', '%' . $type . '%');
+
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        // dd($paginator);
+        return $paginator;
+    }
+
+
 
     // /**
     //  * @return Livre[] Returns an array of Livre objects

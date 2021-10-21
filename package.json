@@ -2,6 +2,7 @@
   "name": "app",
   "packageManager": "yarn@3.0.2",
   "dependencies": {
+    "@icon/dripicons": "^2.0.0-alpha.3",
     "@popperjs/core": "^2.10.2",
     "boostrap": "^2.0.0",
     "bootstrap": "^5.1.2",

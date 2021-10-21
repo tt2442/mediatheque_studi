@@ -24,7 +24,9 @@ class LivreType extends AbstractType
             ->add('Img', FileType::class, [
                 'label' => "Image de couverture",
                 'mapped' => false,
-                'required' => true,
+                'help' => "Si vous chargez une nouvelle image, l'ancienne sera écrasée ! ",
+                'required' => false,
+                'attr' => ['accept' =>  "image/png, image/jpeg"],
                 'label_attr' => ['class' => 'form_label'],
                 'constraints' => [
                     new File([

@@ -1219,6 +1219,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@icon/dripicons@npm:^2.0.0-alpha.3":
+  version: 2.0.0
+  resolution: "@icon/dripicons@npm:2.0.0"
+  checksum: 3fd30439d79c8cd7c7e75a4ea1ac15e6c7e528c0e1cb06ad0059733a6641290b6d599dd7f2967e2b72648950b6f0ca61c3ad8f1a39dbbffc972f93f99e1c1594
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -1827,6 +1834,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "app@workspace:."
   dependencies:
+    "@icon/dripicons": ^2.0.0-alpha.3
     "@popperjs/core": ^2.10.2
     "@symfony/webpack-encore": ^1.6.1
     boostrap: ^2.0.0

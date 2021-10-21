@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Livre;
 use App\Form\LivreType;
+use App\Repository\GenreRepository;
 use App\Repository\LivreRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,60 @@ class LivreController extends AbstractController
     /**
      * @Route("/", name="livre_index", methods={"GET"})
      */
-    public function index(LivreRepository $livreRepository): Response
+    public function index(LivreRepository $livreRepository, GenreRepository $genreRepository): Response
     {
+        if (isset($_GET['search'])) {
+            $titre = $_GET['search'];
+        } else {
+            $titre = '';
+        }
+        if (isset($_GET['type'])) {
+            $type = $_GET['type'];
+        } else {
+            $type = '';
+        }
+        if (isset($_GET['genre'])) {
+            $genre = $_GET['genre'];
+        } else {
+            $genre = 0;
+        }
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+        } else {
+            $page = 1;
+        }
+        if (isset($_GET['nbrElementByPage'])) {
+            $nbrElementByPage = $_GET['nbrElementByPage'];
+        } else {
+            $nbrElementByPage = 10;
+        }
+        $preresult = $livreRepository->searchWhere($titre, $type, $page, $nbrElementByPage);
+        $result = [];
+        if ($genre == 0) {
+            $result = $preresult;
+        } else {
+            foreach ($preresult as $livre) {
+                foreach ($livre->getGenres() as $genreOfLivre) {
+                    if ($genre == $genreOfLivre->getId()) {
+                        $result[] = $livre;
+                    }
+                }
+            }
+        }
+        $nbrPage = intval(ceil(count($result) / $nbrElementByPage));
+        if ($page > $nbrPage && $nbrPage > 0) {
+            $page = $nbrPage;
+            return $this->redirectToRoute('livre_index', ['nbrElementByPage' => $nbrElementByPage, 'page' => $page, 'search' => $titre, 'type' => $type, 'genre' => $genre]);
+        }
         return $this->render('livre/index.html.twig', [
-            'livres' => $livreRepository->findAll(),
+            'livres' => $result,
+            'search' => $titre,
+            'type' => $type,
+            'genre' => $genre,
+            'genres' => $genreRepository->findAll(),
+            'page' => $page,
+            'nbrElementByPage' => $nbrElementByPage,
+            'nbrPage' => $nbrPage
         ]);
     }
 

@@ -35,7 +35,7 @@ class Livre
     private $Titre;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(nullable=true,type="string", length=255)
      */
     private $Img;
 
@@ -117,7 +117,7 @@ class Livre
         return $this->Img;
     }
 
-    public function setImg(string $Img): self
+    public function setImg(?string $Img): self
     {
         $this->Img = $Img;
 

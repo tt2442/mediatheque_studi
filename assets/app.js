@@ -1,3 +1,5 @@
+import "@icon/dripicons/dripicons.css";
+
 const $ = require("jquery");
 global.$ = global.jQuery = $;
 import "bootstrap";
