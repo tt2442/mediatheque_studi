@@ -1,17 +1,16 @@
 {# templates/bundles/TwigBundle/Exception/error404.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'base_membre.html.twig' %}
 
 {% block title %}
   Erreur 500
 {% endblock %}
-{% block page_title %}
-  <h1>Erreur 500</h1>
-{% endblock %}
+{% block search %}{% endblock %}
 
 {% block body %}
+  <h1 class="text-center">Erreur 500</h1>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-12">
+      <div class="col-12 text-center">
 
         <a href="{{ path('home') }}" class="btn btn-primary-change">Retour à l'accueil</a>
       </div>
