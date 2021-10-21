@@ -27,7 +27,8 @@ Lancer cette commande
 Il vous demandera de taper votre mot de passe système.
 Taper-le et tout est bon.
 
+Aller sur http://localhost:49600/
+
 Pour se connecter :
 - en administrateur : administrateur@mediatheque.com password : p;P73VWOP>b$CY+R/~^B
-
 
